@@ -1,8 +1,10 @@
-from flask import request, redirect
+from flask import request, redirect, render_template
+from flask import Flask
 from werkzeug.utils import secure_filename
 
 import os
 
+app = Flask(__name__)
 app.config["IMAGE_UPLOADS"] = "/mnt/c/wsl/projects/pythonise/tutorials/flask_series/app/app/static/img/uploads"
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
 app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
@@ -59,5 +61,8 @@ def upload_image():
                 else:
                     print("That file extension is not allowed")
                     return redirect(request.url)
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
 
-    return render_template("public/upload_image.html")
+    #return render_template("public/upload_image.html")
