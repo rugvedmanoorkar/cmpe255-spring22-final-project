@@ -30,7 +30,7 @@ def allowed_image_filesize(filesize):
         return False
 
 
-@app.route("/upload-image", methods=["GET", "POST"])
+@app.route("/upload", methods=["GET", "POST"])
 def upload_image():
 
     if request.method == "POST":
@@ -61,8 +61,10 @@ def upload_image():
                 else:
                     print("That file extension is not allowed")
                     return redirect(request.url)
+    return render_template("upload_image.html")
+
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
 
-    #return render_template("public/upload_image.html")
+    
