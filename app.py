@@ -1,11 +1,13 @@
-from flask import request, redirect, render_template
+#export FLASK_ENV=development
+#flask run
+from flask import request, redirect, render_template, url_for
 from flask import Flask
 from werkzeug.utils import secure_filename
 
 import os
 
 app = Flask(__name__)
-app.config["IMAGE_UPLOADS"] = "/mnt/c/wsl/projects/pythonise/tutorials/flask_series/app/app/static/img/uploads"
+app.config["IMAGE_UPLOADS"] = "static/uploads/"
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
 app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
 
@@ -32,39 +34,40 @@ def allowed_image_filesize(filesize):
 
 @app.route("/upload", methods=["GET", "POST"])
 def upload_image():
-
+    print(request.url)
     if request.method == "POST":
-
+        print("1")
         if request.files:
+            print("2", request.files)    
+            
+            image = request.files["image"]
+            print("4")
+            if image.filename == "":
+                print("No filename")
+                return redirect(request.url)
+            print("5")
+            if allowed_image(image.filename):
+                filename = secure_filename(image.filename)
 
-            if "filesize" in request.cookies:
+                image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
 
-                if not allowed_image_filesize(request.cookies["filesize"]):
-                    print("Filesize exceeded maximum limit")
-                    return redirect(request.url)
+                print("Image saved")
 
-                image = request.files["image"]
+                return redirect(request.url)
 
-                if image.filename == "":
-                    print("No filename")
-                    return redirect(request.url)
-
-                if allowed_image(image.filename):
-                    filename = secure_filename(image.filename)
-
-                    image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
-
-                    print("Image saved")
-
-                    return redirect(request.url)
-
-                else:
-                    print("That file extension is not allowed")
-                    return redirect(request.url)
+            else:
+                print("That file extension is not allowed")
+                return redirect(request.url)
+            print("6")
     return render_template("upload_image.html")
 
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
+
+@app.route('/display/<filename>')
+def display_image(filename):
+	#print('display_image filename: ' + filename)
+	return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
     
