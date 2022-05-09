@@ -1,10 +1,17 @@
+#. venv/bin/activate
 #export FLASK_ENV=development
 #flask run
 from flask import request, redirect, render_template, url_for
 from flask import Flask
 from werkzeug.utils import secure_filename
+import pickle
+
+from scipy import stats
+import cv2
 
 import os
+import cv2
+import numpy as np
 
 app = Flask(__name__)
 app.config["IMAGE_UPLOADS"] = "static/uploads/"
@@ -70,4 +77,131 @@ def display_image(filename):
 	#print('display_image filename: ' + filename)
 	return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
+def image_convert2(path,fs):
+    images = []
+    labels = []
+    normal_limit=1
+    p_limit=0
+    img_size=256
+
+    img = cv2.imread(path) 
+    if img is not None:
+        img  = cv2.cvtColor(img , cv2.COLOR_BGR2GRAY)   
+        img = cv2.resize(img,(img_size, img_size))
+        images.append(img)
+    images,labels=np.array(images),np.array(labels)
+    print(images.shape)
+    #print(labels)
     
+    #Obtaining Variance of images
+    kernel = np.ones((3,3),np.uint8)
+    #print(kernel)
+    var_vector = np.empty((normal_limit+p_limit,1))
+    i = 0
+    for image in images:
+        x, bins = np.histogram(image,bins=255, density=False)
+        var_vector[i] = np.var(x)
+        i=i+1
+    #print(var_vector[6])
+    
+    #Obtaining lbp of images
+    from skimage.feature import multiblock_lbp
+    lbp_vector = np.empty((normal_limit+p_limit,1))
+    i = 0
+    for image in images:
+        lbp = multiblock_lbp(image, 0,0,28,28)
+        lbp_vector[i] = lbp
+        i=i+1
+    print("LBP Vector shape", lbp_vector.shape)
+    
+    #Obtaining Mean of images
+    mean_vector = np.empty((normal_limit+p_limit,1))
+    i = 0
+    for image in images:
+        x, bins = np.histogram(image,bins=255, density=False)
+        mean_vector[i] = np.mean(x)
+        i=i+1
+    #print(mean_vector[6])
+    
+    #Obtaining Standard Deviation of images
+    std_vector = np.empty((normal_limit+p_limit,1))
+    i = 0
+    for image in images:
+        x, bins = np.histogram(image,bins=255, density=False)
+        std_vector[i] = np.std(x)
+        i=i+1
+    #print(std_vector[6])
+    
+    skew_vector = np.empty((normal_limit+p_limit,1))
+    i = 0
+    for image in images:
+        x, bins = np.histogram(image,bins=255, density=False)
+        skew_vector[i] = stats.skew(x)
+        i=i+1
+    #print(skew_vector[6])
+    
+    #Obtaining Kurtosis of images
+    kurto_vector = np.empty((normal_limit+p_limit,1))
+    i = 0
+    for image in images:
+        x, bins = np.histogram(image,bins=255, density=False)
+        kurto_vector[i] = stats.kurtosis(x)
+        i=i+1
+    #print(kurto_vector[6])
+    #Obtaining Entropy of images
+    entropy_vector = np.empty((normal_limit+p_limit,1))
+    i = 0
+    for image in images:
+        x, bins = np.histogram(image,bins=255, density=False)
+        entropy_vector[i] = stats.entropy(x)
+        i=i+1
+    #print(entropy_vector[6])
+    print(np.shape(entropy_vector))
+    
+    #Applying Canny edge detection
+    canny_vector = np.empty((normal_limit+p_limit,img_size*img_size))
+    i = 0
+    for image in images:
+        canny = cv2.Canny(image,40,200)
+        canny_vector[i] = np.array(canny.flatten())
+        i=i+1
+    print(np.shape(canny_vector))
+    
+    #Applying Sobel X
+    sobelX_vector = np.empty((normal_limit+p_limit,img_size*img_size))
+    i = 0
+    for image in images:
+        sobelX = cv2.Sobel(image,cv2.CV_8UC1,1,0,ksize=5)
+        sobelX_vector[i] = np.array(sobelX.flatten())
+        i=i+1
+    #Applying Sobel Y
+    sobelY_vector = np.empty((normal_limit+p_limit,img_size*img_size))
+    i = 0
+    for image in images:
+        sobelY = cv2.Sobel(image,cv2.CV_8UC1,0,1,ksize=5)
+        sobelY_vector[i] = np.array(sobelY.flatten())
+        i=i+1
+
+    feature_vector = np.empty((normal_limit+p_limit,0))
+    print("NL", normal_limit)
+    print("PL", p_limit)
+    #feature_vector=np.append(feature_vector,mean_vector,axis=1)
+    feature_vector=np.append(feature_vector,lbp_vector,axis=1)
+    feature_vector=np.append(feature_vector,var_vector,axis=1)
+    feature_vector=np.append(feature_vector,std_vector,axis=1)
+    feature_vector=np.append(feature_vector,skew_vector,axis=1)
+    feature_vector=np.append(feature_vector,kurto_vector,axis=1)
+    feature_vector=np.append(feature_vector,entropy_vector,axis=1)
+    feature_vector=np.append(feature_vector,canny_vector,axis=1)
+    feature_vector=np.append(feature_vector,sobelX_vector,axis=1)
+    feature_vector=np.append(feature_vector,sobelY_vector,axis=1)
+    #feature_vector=np.append(feature_vector,hog_features,axis=1)
+    print("FV",np.shape(feature_vector))
+    
+    fs = np.append(fs,feature_vector,axis=1)
+    
+    print((fs))
+    return fs
+
+def model():
+    loaded_model = pickle.load(open("finalized_model.sav", 'rb'))
