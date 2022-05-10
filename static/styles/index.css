@@ -13,9 +13,11 @@ body{
 h1{
     font-size: 3.2em;
 }
+
 .form-group{
     font-size: 2em;
 }
+
 .custom-file-input{
     padding: 20px 0px;
 }
@@ -46,4 +48,11 @@ h1{
     text-align: center;
     background-color: #DDD;
     cursor:pointer;   
+}
+
+.d-image{
+    width: 200px;
+    height: 200px;
+    background-color: red;
+    background: url('../static/images/doctor.png');
 }
