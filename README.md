@@ -46,5 +46,8 @@ Post training the model, we fit our trained model on test dataset.Using sklearn.
 <img src="outputscreenshots/confusion_matrix_random_forest.png" width="500">
 
 ## Integration with Flask App
+Flask application is created as a front end to upload images of format PNG, JPEG, GIF to predict whether the model can predict if the image shows the sign of pneumonia or not. 
+POST API created of route - /upload to upload images 
+GET API created to display - / display/{image_name} uploaded images
 ## UI Screenshots
 <img src="outputscreenshots/UI.png" width="500">
