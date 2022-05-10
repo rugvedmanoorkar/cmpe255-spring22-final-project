@@ -9,6 +9,8 @@
 1. SVM
 2. Random Forest
 ## Dataset and Preprocessing
+Dataset : https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia
+
 ## Feature Extraction
 ## Feature Scaling
 ## Training and cross-validation
