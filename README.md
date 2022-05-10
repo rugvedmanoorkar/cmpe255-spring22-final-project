@@ -29,6 +29,8 @@ Feature Scaling is a technique of bringing down the values of all the independen
 
 ## Training and cross-validation
 ## Testing 
+Post training the model, we fit our trained model on test dataset.Using sklearn.metrics we calculated precision, recall, f1 score and accuracy score.
+
 ## Comparision between SVM and Random Forest Model
 ###  Confusion Matrix for SVM Model
 <img src="outputscreenshots/confusion_matrix_svm.png" width="500">
