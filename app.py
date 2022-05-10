@@ -1,11 +1,13 @@
 #. venv/bin/activate
 #export FLASK_ENV=development
 #flask run
+from xml.sax.handler import feature_validation
 from flask import request, redirect, render_template, url_for
 from flask import Flask
 from werkzeug.utils import secure_filename
 import pickle
-
+from sklearn.preprocessing import StandardScaler
+from sklearn import svm
 from scipy import stats
 import cv2
 
@@ -14,6 +16,8 @@ import cv2
 import numpy as np
 
 app = Flask(__name__)
+if __name__ == 'main':
+    app.run(host='0.0.0.0')
 app.config["IMAGE_UPLOADS"] = "static/uploads/"
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
 app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
@@ -59,14 +63,26 @@ def upload_image():
                 image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
 
                 print("Image saved")
-
-                return redirect(request.url)
+                result = model(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+                print("Result ", result[0])
+                finalRes = ""
+                if result[0] == 1:
+                    finalRes = "Pneumonia Detected"
+                else:
+                    finalRes = "No Pneumonia"
+                print(finalRes)
+                return render_template("upload_image.html", finalRes = finalRes)
 
             else:
                 print("That file extension is not allowed")
                 return redirect(request.url)
             print("6")
+
     return render_template("upload_image.html")
+
+ 
+            
+
 
 @app.route("/")
 def hello_world():
@@ -203,5 +219,37 @@ def image_convert2(path,fs):
     print((fs))
     return fs
 
-def model():
+
+
+def model(path):
+    print("PATH ", path)
+    fs = np.empty((1,0))
+    fs2 = image_convert2(path,fs)
+    #fs2= np.append(fs,feature_vector[1],axis=1)
+    print("FS after",np.shape(fs2) )
+    #print("Feature vecotr shape [1]: ", np.shape([feature_vector[1]]))
+    #fs2= np.append(fs2,[feature_vector[1]],axis=0)
+    print("FS after after",np.shape(fs2) )
+    #sc = StandardScaler()
+    #fs2 = sc.fit_transform(fs2)
+    print(fs2)
     loaded_model = pickle.load(open("finalized_model.sav", 'rb'))
+    y_prob = loaded_model.predict(fs2)
+    print(y_prob, "  *** OUTPUTZZ ****")
+    return y_prob
+"""
+#image_convert2("static/uploads/Screen_Shot_2022-04-03_at_12.27.29_PM.png")
+fs = np.empty((1,0))
+fs2 = image_convert2("static/uploads/normal3.jpeg",fs)
+#fs2= np.append(fs,feature_vector[1],axis=1)
+print("FS after",np.shape(fs2) )
+#print("Feature vecotr shape [1]: ", np.shape([feature_vector[1]]))
+#fs2= np.append(fs2,[feature_vector[1]],axis=0)
+print("FS after after",np.shape(fs2) )
+#sc = StandardScaler()
+#fs2 = sc.fit_transform(fs2)
+print(fs2)
+loaded_model = pickle.load(open("finalized_model.sav", 'rb'))
+y_prob = loaded_model.predict(fs2)
+print(y_prob, "  *** OUTPUT ****")
+"""
