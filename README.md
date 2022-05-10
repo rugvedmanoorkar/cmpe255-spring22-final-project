@@ -47,3 +47,4 @@ Post training the model, we fit our trained model on test dataset.Using sklearn.
 
 ## Integration with Flask App
 ## UI Screenshots
+<img src="outputscreenshots/UI.png" width="500">
