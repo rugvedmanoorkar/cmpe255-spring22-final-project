@@ -1,6 +1,6 @@
 # Pneumonia Detection using Machine Learning
 ## Team Members
-- Rugved Manookar To do
+- Rugved Manookar 015017457
 - Anjali Jain     015244151
 - Adarsh Patil    To do
 
