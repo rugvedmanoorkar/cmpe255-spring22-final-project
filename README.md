@@ -5,11 +5,14 @@
 - Adarsh Patil    To do
 
 ## Introduction
+## Models
+1. SVM
+2. Random Forest
 ## Dataset and Preprocessing
 ## Feature Extraction
 ## Feature Scaling
 ## Training and cross-validation
 ## Testing 
-## Performance Metrics
+## Comparision between SVM and Random Forest Model
 ## Integration with Flask App
 ## UI Screenshots
