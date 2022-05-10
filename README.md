@@ -17,8 +17,8 @@ We start with 2000 samples from the Mendeley dataset.
 
 These samples are high quality JPEG images. We use python OpenCV library to resize these images and then convert to grayscale inorder to reduce the complexity. All the pneumonia positive samples are labelled as 1 and negative samples are labelled as 0. 
 
--insert penuemonia positive sample
--insert penuemonia negative sample
+-insert pneumonia positive sample
+-insert pneumonia negative sample
 -insert grayscale image for pneumoia postive sample
 
 
@@ -32,6 +32,8 @@ Feature Scaling is a technique of bringing down the values of all the independen
 Post training the model, we fit our trained model on test dataset.Using sklearn.metrics we calculated precision, recall, f1 score and accuracy score.
 
 ## Comparision between SVM and Random Forest Model
+1 - pneumonia
+0 - Normal
 ###  Confusion Matrix for SVM Model
 <img src="outputscreenshots/confusion_matrix_svm.png" width="500">
 
