@@ -28,12 +28,15 @@ These samples are high quality JPEG images. We use python OpenCV library to resi
 Feature Scaling is a technique of bringing down the values of all the independent features of our dataset on the same scale. We use StandardScaler from sklearn.preprocessing library to scale our feature vectors.
 
 ## Training and cross-validation
+We are running both the model SVM and Random Forest for training the model on feature vector of training dataset. We are using K-Fold where K=5 cross validation to ensure there is no overfitting.
+
 ## Testing 
 Post training the model, we fit our trained model on test dataset.Using sklearn.metrics we calculated precision, recall, f1 score and accuracy score.
 
 ## Comparision between SVM and Random Forest Model
 1 - pneumonia
 0 - Normal
+
 ###  Confusion Matrix for SVM Model
 <img src="outputscreenshots/confusion_matrix_svm.png" width="500">
 
