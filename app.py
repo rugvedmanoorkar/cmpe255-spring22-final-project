@@ -21,6 +21,8 @@ if __name__ == 'main':
 app.config["IMAGE_UPLOADS"] = "static/uploads/"
 app.config["ALLOWED_IMAGE_EXTENSIONS"] = ["JPEG", "JPG", "PNG", "GIF"]
 app.config["MAX_IMAGE_FILESIZE"] = 0.5 * 1024 * 1024
+svm_path = "finalized_model.sav"
+rf_path = "model/finalized_model_rfc.sav"
 
 def allowed_image(filename):
 
@@ -63,15 +65,28 @@ def upload_image():
                 image.save(os.path.join(app.config["IMAGE_UPLOADS"], filename))
 
                 print("Image saved")
-                result = model(os.path.join(app.config["IMAGE_UPLOADS"], filename))
+                result = model(os.path.join(app.config["IMAGE_UPLOADS"], filename),svm_path)
                 print("Result ", result[0])
-                finalRes = ""
+                finalRes1 = ""
                 if result[0] == 1:
-                    finalRes = "Pneumonia Detected"
+                    finalRes1 = "Pneumonia Detected"
                 else:
-                    finalRes = "No Pneumonia"
-                print(finalRes)
-                return render_template("upload_image.html", finalRes = finalRes)
+                    finalRes1 = "No Pneumonia"
+                print(finalRes1)
+                
+                
+                finalRes2 = ""
+                """
+                result = model(os.path.join(app.config["IMAGE_UPLOADS"], filename),rf_path)
+                print("Result ", result[0])
+                
+                if result[0] == 1:
+                    finalRes2 = "Pneumonia Detected"
+                else:
+                    finalRes2 = "No Pneumonia"
+                print(finalRes2)
+                """
+                return render_template("upload_image.html", finalRes1 = finalRes1, finalRes2 = finalRes2)
 
             else:
                 print("That file extension is not allowed")
@@ -221,7 +236,7 @@ def image_convert2(path,fs):
 
 
 
-def model(path):
+def model(path, model_path):
     print("PATH ", path)
     fs = np.empty((1,0))
     fs2 = image_convert2(path,fs)
@@ -233,7 +248,8 @@ def model(path):
     #sc = StandardScaler()
     #fs2 = sc.fit_transform(fs2)
     print(fs2)
-    loaded_model = pickle.load(open("model/finalized_model_rfc.sav", 'rb'))
+    loaded_model = pickle.load(open(model_path, 'rb'))
+    #loaded_model = pickle.load(open("finalized_model.sav", 'rb'))
     y_prob = loaded_model.predict(fs2)
     print(y_prob, "  *** OUTPUTZZ ****")
     return y_prob
