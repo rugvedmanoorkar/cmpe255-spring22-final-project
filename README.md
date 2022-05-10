@@ -5,6 +5,7 @@
 - Adarsh Patil    To do
 
 ## Introduction
+Pneumonia can range from a mild to serious or life-threatening infection and can sometimes lead to death. It is detected using X-ray imaging.It is commonly misclassified as other diseases since radiographs are not particularly clear. Machine learning models can be used to identify pneumonia in chest X-rays.
 ## Models
 1. SVM
 2. Random Forest
