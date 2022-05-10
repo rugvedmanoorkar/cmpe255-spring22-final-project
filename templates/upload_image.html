@@ -1,7 +1,5 @@
-
-
-{% block title %}Upload{% endblock %}
-
+{% block title %}{% endblock %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/index.css') }}">
 {% block main %}
 
 <div class="container">
@@ -14,14 +12,16 @@
       <form action="/upload" method="POST" enctype="multipart/form-data">
 
         <div class="form-group">
-          <label>Select image</label>
           <div class="custom-file">
-            <input type="file" class="custom-file-input" name="image" id="image"><p>
             <label class="custom-file-label" for="image">Select image...</label>
+            <br>
+            <input type="file" class="custom-file-input" name="image" id="image">
+            </input>
+            <p>
           </div>
         </div>
 
-        <button type="submit" class="btn btn-primary">Upload</button>
+        <button type="submit" id="uploadBtn" onclick="getFile()" style="cursor:pointer;">Upload</button>
 
       </form>
 

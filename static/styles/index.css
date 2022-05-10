@@ -1,0 +1,49 @@
+body{
+    background-color: rgb(255, 199, 0);
+    height: 100vh;
+}
+
+.container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70%;
+}
+
+h1{
+    font-size: 3.2em;
+}
+.form-group{
+    font-size: 2em;
+}
+.custom-file-input{
+    padding: 20px 0px;
+}
+ 
+#uploadBtn {
+    position: relative;
+    top: 150px;
+    font-family: calibri;
+    width: 300px;
+    padding: 10px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border: 1px dashed #BBB;
+    text-align: center;
+    background-color: #DDD;
+    cursor:pointer;
+}
+ 
+#chooseBtn{
+    position: relative;
+    top: 100px;
+    font-family: calibri;
+    width: 100px;
+    padding: 10px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    border: 1px dashed #BBB;
+    text-align: center;
+    background-color: #DDD;
+    cursor:pointer;   
+}
