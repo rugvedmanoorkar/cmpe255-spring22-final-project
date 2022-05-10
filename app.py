@@ -233,7 +233,7 @@ def model(path):
     #sc = StandardScaler()
     #fs2 = sc.fit_transform(fs2)
     print(fs2)
-    loaded_model = pickle.load(open("finalized_model.sav", 'rb'))
+    loaded_model = pickle.load(open("model/finalized_model_rfc.sav", 'rb'))
     y_prob = loaded_model.predict(fs2)
     print(y_prob, "  *** OUTPUTZZ ****")
     return y_prob
