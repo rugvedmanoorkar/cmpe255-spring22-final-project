@@ -35,5 +35,6 @@ Feature Scaling is a technique of bringing down the values of all the independen
 
 ###  Confusion Matrix for Random Forest Model
 <img src="outputscreenshots/confusion_matrix_random_forest.png" width="500">
+
 ## Integration with Flask App
 ## UI Screenshots
