@@ -30,5 +30,10 @@ Feature Scaling is a technique of bringing down the values of all the independen
 ## Training and cross-validation
 ## Testing 
 ## Comparision between SVM and Random Forest Model
+###  Confusion Matrix for SVM Model
+<img src="outputscreenshots/confusion_matrix_svm.png" width="500">
+
+###  Confusion Matrix for Random Forest Model
+<img src="outputscreenshots/confusion_matrix_random_forest.png" width="500">
 ## Integration with Flask App
 ## UI Screenshots
