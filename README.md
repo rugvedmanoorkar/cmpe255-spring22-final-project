@@ -23,6 +23,7 @@ These samples are high quality JPEG images. We use python OpenCV library to resi
 
 
 ## Feature Extraction
+After preprocessing the dataset, we extract 10 features from all the images to form a feature vector for each sample: variance, standard deviation, skew, kurtosis, entropy, canny edges, local binary pattern (LBP), Sobel X, and Sobel Y. We use NumPy, OpenCV, and skimage.feature packages to extract these features from images. 
 
 ## Feature Scaling
 Feature Scaling is a technique of bringing down the values of all the independent features of our dataset on the same scale. We use StandardScaler from sklearn.preprocessing library to scale our feature vectors.
