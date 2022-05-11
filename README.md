@@ -18,9 +18,7 @@ We start with 2000 samples from the Mendeley dataset.
 
 These samples are high quality JPEG images. We use python OpenCV library to resize these images and then convert to grayscale inorder to reduce the complexity. All the pneumonia positive samples are labelled as 1 and negative samples are labelled as 0. 
 
--insert pneumonia positive sample
--insert pneumonia negative sample
--insert grayscale image for pneumoia postive sample
+
 
 
 ## Feature Extraction
