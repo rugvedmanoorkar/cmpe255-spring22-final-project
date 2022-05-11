@@ -2,7 +2,7 @@
 ## Team Members
 - Rugved Manookar 015017457
 - Anjali Jain     015244151
-- Adarsh Patil    To do
+- Adarsh Patil    014749228
 
 ## Introduction
 Pneumonia can range from a mild to serious or life-threatening infection and can sometimes lead to death. It is detected using X-ray imaging.It is commonly misclassified as other diseases since radiographs are not particularly clear. Machine learning models can be used to identify pneumonia in chest X-rays.
